@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+
+		<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+		<script type="text/javascript" src="js/layui.all.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+
+		<style>
+			.myTab {
+				width: 100%;
+				height: 10%;
+				margin: 5px;
+			}
+		</style>
+
+		<script type="text/javascript">
+			var arrTab = {};
+			
+			var  sNavId ="myNav";
+
+			$(function() {
+				//				arrTab.push="xxx";
+				arrTab["所有商品"] = "";
+
+			});
+
+			function myAddTab(obj) {
+				var sid = $(obj).prop("id");
+				console.log("sid " + sid)
+
+				//				<a href="javascript:;" onclick="myAddTab(obj)">列表一</a>
+
+				var bIsExist = false;
+				//判断id是否已经存在，存在则不添加，切换页面
+				$.each(arrTab, function(k, v) {
+					console.log("判断中====k " + k)
+					if(sid == k) {
+						//已经存在
+						bIsExist = true;
+						//切换页面
+//						removeTabActive("myNav");
+						
+						myChangeTab("myNav",sid);
+
+						//						$("#myNav").append(sLi);
+
+						//				<ul class="nav nav-tabs" id="myNav">
+						//
+						//						<li class="active">
+						//							<a href="#">所有商品</a>
+						//						</li>
+						//						<!--<li><a href="#">开快点快点</a></li>
+						//						<li><a href="#">开快点快点</a></li>
+						//						<li><a href="#">开快点快点</a></li>-->
+						//
+						//					</ul>
+
+					}
+				})
+
+				console.log("判断结束 bIsExist " + bIsExist)
+
+				if(bIsExist) {
+					console.log("if(bIsExist " + bIsExist)
+					return
+				}
+
+				console.log("添加tab")
+				//添加tab
+				arrTab[sid] = "";
+
+				removeTabActive("myNav");
+
+				//添加ui
+//				myChangeTab("+sNavId+","+sid+")
+//onclick='myChangeTab("+sNavId+','+sid+")'
+//				<li onclick="myChangeTab(" mynav','列表一')'="" class="" id="列表一"><a href="#">列表一</a></li>
+				var sLi = "<li   class='active' id='"+sid+"'><a href='#'>" + sid + "</a></li>";
+				
+				console.log("sLi " + sLi)
+				
+//				myChangeTab("myNav",sid);
+
+				$("#myNav").append(sLi);
+				
+				//精妙之处
+				$("#"+sid).click(function(){
+					myChangeTab(sNavId,sid);
+				})
+
+				$("#myIframe").prop("src", sid +".html");
+
+				//				<ul class="nav nav-tabs" id="myNav">
+				//
+				//						<li class="active">
+				//							<a href="#">所有商品</a>
+				//						</li>
+				//						<!--<li><a href="#">开快点快点</a></li>
+				//						<li><a href="#">开快点快点</a></li>
+				//						<li><a href="#">开快点快点</a></li>-->
+				//
+				//					</ul>
+
+			}
+
+			function removeTabActive(sid) {
+
+				var child = $("#" + sid).children();
+
+				$.each(child, function(k, v) {
+					//					console.log("removeTabActive k="+k+"----v="+JSON.stringify(v))
+
+					$(v).removeClass("active");
+				});
+
+			}
+
+			function myChangeTab(navId, sid) {
+				console.log("myChangeTab navId "+navId)
+				console.log("myChangeTab sid "+sid)
+				removeTabActive(navId);
+				
+
+				var child = $("#" + navId).children();
+				
+
+				$.each(child, function(k, v) {
+					console.log("v id "+$(v).prop("id"))
+					
+					if($(v).prop("id")==sid)
+					{
+						$(v).addClass("active");
+					}
+					
+				});
+				
+				$("#myIframe").prop("src", sid +".html");
+
+			}
+
+			//			function showList1() {
+			//				console.log("showList1")
+			//				$("#myIframe").prop("src", "list1.html");
+			//				addTab('列表一');
+			//			}
+			//
+			//			function showList2() {
+			//				console.log("showList2")
+			//				$("#myIframe").prop("src", "list2.html");
+			//				addTab('列表二');
+			//			}
+			//
+			//			//add tab
+			//			function addTab(sId) {
+			//				console.log("addTab sId " + sId)
+			//				var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			//
+			//				//新增一个Tab项
+			//				element.tabAdd('div-tab', {
+			//					title: sId //用于演示
+			//						,
+			//					//					content: sId,s
+			//					id: sId //实际使用一般是规定好的id，这里以时间戳模拟下
+			//				})
+			//			}
+			//
+			//			function myTabChange(layid) {
+			//				var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			//				element.tabChange('div-tab', layid);
+			//
+			//			}
+		</script>
+
+		<link rel="stylesheet" href="css/layui.css">
+	</head>
+
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">WLPRO</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item">
+						<a href="">控制台</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">用户</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">其它系统</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">邮件管理</a>
+							</dd>
+							<dd>
+								<a href="">消息管理</a>
+							</dd>
+							<dd>
+								<a href="">授权管理</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 贤心
+						</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">退了</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">所有商品</a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a id="列表一" href="javascript:;" onclick="myAddTab(this)">列表一</a>
+								</dd>
+								<dd>
+									<a id="列表二" href="javascript:;" onclick="myAddTab(this)">列表二</a>
+								</dd>
+								<dd>
+									<a href="javascript:;">列表三</a>
+								</dd>
+								<dd>
+									<a href="">超链接</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">解决方案</a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a href="javascript:;">列表一</a>
+								</dd>
+								<dd>
+									<a href="javascript:;">列表二</a>
+								</dd>
+								<dd>
+									<a href="">超链接</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="">云市场</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="">发布商品</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="layui-body" style="width=100%;height=100%;">
+				<!-- wsj内容主体区域 -->
+				<div class="myTab">
+
+					<ul class="nav nav-tabs" id="myNav">
+
+						<li class="active" id="所有商品">
+							<a>所有商品</a>
+						</li>
+						<!--<li><a href="#">开快点快点</a></li>
+						<li><a href="#">开快点快点</a></li>
+						<li><a href="#">开快点快点</a></li>-->
+
+					</ul>
+
+					<!--<button onclick="myTabChange('"+列表二+"')">切换</button>-->
+					<!--<div class="layui-tab" lay-filter="div-tab" lay-allowclose="true">
+						<ul class="layui-tab-title">
+							<!--<li class="layui-this" lay-id="11">网站设置</li>
+							<li lay-id="22">用户管理</li>
+							<li lay-id="33">权限分配</li>
+							<li lay-id="44">商品管理</li>
+							<li lay-id="55">订单管理</li>
+							<button class="layui-btn site-demo-active" data-type="tabAdd">新增Tab项</button>-->
+					<!--</ul>-->
+					<!--</div>-->
+				</div>
+
+				<iframe name="content_frame" marginwidth=0 marginheight=0 width=100% height=90% src="index.html" frameborder=0 id="myIframe"></iframe>
+			</div>
+
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+		</div>
+		<!--<script src="js/layui.all.js"></script>
+		<script>
+			//JavaScript代码区域
+			//			layui.use('element', function() {
+			//				var element = layui.element;
+			//
+			//			});
+
+			layui.use('element', function() {
+//				var $ = layui.jquery,
+//					element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+//
+//				//触发事件
+//				var active = {
+//					tabAdd: function() {
+//						//新增一个Tab项
+//						element.tabAdd('div-tab', {
+//							title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+//								,
+//							content: '内容' + (Math.random() * 1000 | 0),
+//							id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+//						})
+//					},
+//					tabDelete: function(othis) {
+//						//删除指定Tab项
+//						element.tabDelete('div-tab', '44'); //删除：“商品管理”
+//
+//						othis.addClass('layui-btn-disabled');
+//					},
+//					tabChange: function() {
+//						//切换到指定Tab项
+//						element.tabChange('div-tab', '22'); //切换到：用户管理
+//					}
+//				};
+
+				$('.site-demo-active').on('click', function() {
+					var othis = $(this),
+						type = othis.data('type');
+					active[type] ? active[type].call(this, othis) : '';
+				});
+
+				//Hash地址的定位
+				var layid = location.hash.replace(/^#test=/, '');
+				element.tabChange('test', layid);
+
+				element.on('tab(test)', function(elem) {
+					location.hash = 'test=' + $(this).attr('lay-id');
+				});
+
+			});-->
+		</script>
+	</body>
+
+</html>
