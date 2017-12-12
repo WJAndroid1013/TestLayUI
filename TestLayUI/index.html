@@ -1,10 +1,44 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
+		<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+		<script type="application/javascript">
+			$(function(){
+				var jsonObj = {};
+				jsonObj["name"]="王杰";
+				jsonObj["age"]=26;
+				jsonObj["age2"]=26;
+				jsonObj["age3"]=26;
+				jsonObj["age4"]=26;
+				
+				$.each(jsonObj, function(k,v) {
+					console.log("k="+k+";v="+v)
+					if(k=="age")
+					{
+//						return false;//相当于break
+						return true;//相当于continue
+					}
+					console.log("if down "+k)
+				});
+				
+//				delete jsonObj["name"];
+//				delete jsonObj["age"];
+				
+				console.log("***************************")
+				
+//				$.each(jsonObj, function(k,v) {
+//					console.log("k="+k+";v="+v)
+//				});
+//				
+			})
+		</script>
 	</head>
+
 	<body>
 		<h2>我是内容</h2>
 	</body>
+
 </html>
